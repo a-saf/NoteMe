@@ -20,7 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="center"
+            android:elevation="4dp"
             android:background="@color/primary_rose">
+
 
             <TextView
                 android:id="@+id/toolbar_title"
@@ -37,10 +39,11 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
+    <EditText
         android:id="@+id/note_title"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
+        android:padding="10dp"
         android:gravity="left|center_vertical"
         android:hint="@string/title_hint"
         android:paddingLeft="10dp"
@@ -49,10 +52,11 @@
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
         tools:ignore="TextContrastCheck" />
 
-    <TextView
+    <EditText
         android:id="@+id/note_subtitle"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
+        android:padding="10dp"
         android:gravity="left|center_vertical"
         android:hint="@string/subtitle_hint"
         android:paddingLeft="10dp"
@@ -64,8 +68,8 @@
     <EditText
         android:id="@+id/note_body"
         style="@style/Widget.AppCompat.EditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="411dp"
+        android:layout_height="479dp"
         android:layout_marginTop="1dp"
         android:ems="10"
         android:gravity="left|center_vertical"
