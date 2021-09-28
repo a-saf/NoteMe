@@ -1,0 +1,31 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.NoteMe" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary_rose</item>
+        <item name="colorPrimaryVariant">@color/primary_rose</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_accent</item>
+        <item name="colorSecondaryVariant">@color/teal_accent</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="Theme.NoteMe.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="ThemeOverlay.SearchView" parent="">
+        <!-- Text color -->
+        <item name="android:editTextColor">@color/hint_text</item>
+        <!-- Hint text color -->
+        <item name="android:textColorHint">@color/hint_text</item>
+    </style>
+    <style name="ThemeOverlay.NoteText" parent="">
+        <!-- Text color -->
+        <item name="android:editTextColor">@color/hint_text</item>
+        <!-- Hint text color -->
+        <item name="android:textColorHint">@color/hint_text</item>
+    </style>
+
+    <style name="Theme.NoteMe.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

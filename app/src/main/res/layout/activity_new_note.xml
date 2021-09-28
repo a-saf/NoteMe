@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_background"
+    android:backgroundTint="@color/gray_background"
+    tools:context=".NewNoteActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center"
+            android:background="@color/primary_rose">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elegantTextHeight="false"
+                android:fontFamily="@font/ubuntu_bold"
+                android:text="@string/new_note"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <TextView
+        android:id="@+id/note_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="left|center_vertical"
+        android:hint="@string/title_hint"
+        android:paddingLeft="10dp"
+        android:textColor="@color/hint_text"
+        android:theme="@style/ThemeOverlay.NoteText"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/note_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="left|center_vertical"
+        android:hint="@string/subtitle_hint"
+        android:paddingLeft="10dp"
+        android:textColor="@color/hint_text"
+        android:theme="@style/ThemeOverlay.NoteText"
+        app:layout_constraintTop_toBottomOf="@+id/note_title"
+        tools:ignore="TextContrastCheck" />
+
+    <EditText
+        android:id="@+id/note_body"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:ems="10"
+        android:gravity="left|center_vertical"
+        android:hint="@string/note_hint"
+        android:inputType="textMultiLine"
+        android:minHeight="48dp"
+        android:paddingStart="10dp"
+        android:textColor="@color/hint_text"
+        android:theme="@style/ThemeOverlay.NoteText"
+        app:layout_constraintTop_toBottomOf="@+id/note_subtitle" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/new_note_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:clickable="true"
+        android:contentDescription="@string/add_new_note"
+        android:focusable="true"
+        app:backgroundTint="@color/teal_accent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/baseline_note_add_white_48"
+        app:tint="@color/white"
+        tools:ignore="ImageContrastCheck" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
