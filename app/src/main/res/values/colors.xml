@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="gray_background">#706E6E</color>
+    <color name="gray_background">#565555</color>
+    <color name="gray_tint">#302f2f</color>
     <color name="hint_text">#C4C4C4</color>
-    <color name="primary_rose">#CF376B</color>
-    <color name="teal_accent">#009688</color>
+    <color name="primary_rose">#CF3784</color>
+    <color name="teal_accent">#37cf82</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

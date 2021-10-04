@@ -16,11 +16,15 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
+            app:theme="@style/ThemeOverlay.AppCompat.Dark"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="center"
-            android:background="@color/primary_rose">
+            android:background="@color/primary_rose"
+            android:elevation="4dp"
+            android:foregroundTint="@color/white">
+
 
             <TextView
                 android:id="@+id/toolbar_title"
@@ -37,23 +41,27 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
+    <EditText
         android:id="@+id/note_title"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
+        android:padding="10dp"
         android:gravity="left|center_vertical"
         android:hint="@string/title_hint"
+        android:backgroundTint="@color/gray_tint"
         android:paddingLeft="10dp"
         android:textColor="@color/hint_text"
         android:theme="@style/ThemeOverlay.NoteText"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
         tools:ignore="TextContrastCheck" />
 
-    <TextView
+    <EditText
         android:id="@+id/note_subtitle"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
+        android:padding="10dp"
         android:gravity="left|center_vertical"
+        android:backgroundTint="@color/gray_tint"
         android:hint="@string/subtitle_hint"
         android:paddingLeft="10dp"
         android:textColor="@color/hint_text"
@@ -64,18 +72,23 @@
     <EditText
         android:id="@+id/note_body"
         style="@style/Widget.AppCompat.EditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="1dp"
         android:ems="10"
-        android:gravity="left|center_vertical"
+        android:gravity="left|top"
         android:hint="@string/note_hint"
+        android:backgroundTint="@color/gray_background"
         android:inputType="textMultiLine"
         android:minHeight="48dp"
         android:paddingStart="10dp"
         android:textColor="@color/hint_text"
         android:theme="@style/ThemeOverlay.NoteText"
-        app:layout_constraintTop_toBottomOf="@+id/note_subtitle" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/note_subtitle"
+        app:layout_constraintVertical_bias="0.36" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/new_note_btn"
