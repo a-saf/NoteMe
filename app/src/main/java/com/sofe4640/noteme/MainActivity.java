@@ -1,14 +1,14 @@
 package com.sofe4640.noteme;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,20 +16,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar mainToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mainToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mainToolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
-        FloatingActionButton addNote = (FloatingActionButton) findViewById(R.id.new_note_btn);
-        addNote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                // TODO Auto-generated method stub
-                Intent i = new Intent(getApplicationContext(),NewNoteActivity.class);
-                startActivity(i);
 
-            }
+
+        FloatingActionButton addNote = findViewById(R.id.new_note_btn);
+        addNote.setOnClickListener(v -> {
+            // TODO Auto-generated method stub
+            Intent i = new Intent(getApplicationContext(),NewNoteActivity.class);
+            startActivity(i);
+
         });
     }
 

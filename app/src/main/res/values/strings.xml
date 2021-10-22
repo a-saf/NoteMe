@@ -7,4 +7,5 @@
     <string name="note_hint">Add note</string>
     <string name="add_new_note">Add new note</string>
     <string name="new_note">New Note</string>
+    <string name="saved">Saved</string>
 </resources>
