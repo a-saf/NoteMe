@@ -3,6 +3,7 @@ package com.sofe4640.noteme.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -52,6 +53,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NoteViewHolder>{
     static class NoteViewHolder extends RecyclerView.ViewHolder {
 
         TextView noteTitle, noteSubtitle, noteDate;
+        int noteColor;
 
         NoteViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,6 +70,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NoteViewHolder>{
                 noteSubtitle.setText(note.getSubtitle());
             }
             noteDate.setText(note.getDate());
+            noteColor = Integer.parseInt(note.getNoteColor());
+            LinearLayout backgroundLayout = itemView.findViewById(R.id.noteLayout);
+            backgroundLayout.setBackgroundColor(noteColor);
         }
     }
 

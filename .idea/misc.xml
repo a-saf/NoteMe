@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/100601514/Desktop/School/Yr4/Mobile - SOFE4640/NoteMe/app/src/main/res/drawable/ic_baseline_color_lens_24.xml" value="0.17685185185185184" />
         <entry key="..\:/Users/100601514/Desktop/School/Yr4/Mobile - SOFE4640/NoteMe/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.2703125" />
         <entry key="..\:/Users/100601514/Desktop/School/Yr4/Mobile - SOFE4640/NoteMe/app/src/main/res/drawable/note_background.xml" value="0.14895833333333333" />
         <entry key="..\:/Users/100601514/Desktop/School/Yr4/Mobile - SOFE4640/NoteMe/app/src/main/res/drawable/search_icon.xml" value="0.14635416666666667" />
@@ -13,6 +14,8 @@
         <entry key="..\:/Users/100601514/Desktop/School/Yr4/Mobile - SOFE4640/NoteMe/app/src/main/res/layout/activity_new_note.xml" value="0.12982456140350876" />
         <entry key="..\:/Users/100601514/Desktop/School/Yr4/Mobile - SOFE4640/NoteMe/app/src/main/res/layout/activity_rv_list_item.xml" value="0.1328125" />
         <entry key="..\:/Users/100601514/Desktop/School/Yr4/Mobile - SOFE4640/NoteMe/app/src/main/res/layout/menu.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/100601514/Desktop/School/Yr4/Mobile - SOFE4640/NoteMe/app/src/main/res/layout/myrow.xml" value="0.19895833333333332" />
+        <entry key="..\:/Users/100601514/Desktop/School/Yr4/Mobile - SOFE4640/NoteMe/app/src/main/res/menu/menu.xml" value="0.1" />
         <entry key="..\:/Users/100601514/Desktop/School/Yr4/Mobile - SOFE4640/NoteMe/app/src/main/res/menu/top_app_bar.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/100601514/Desktop/School/Yr4/Mobile - SOFE4640/NoteMe/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/100601514/Desktop/School/Yr4/Mobile - SOFE4640/NoteMe/app/src/main/res/xml/searchable.xml" value="0.25416666666666665" />

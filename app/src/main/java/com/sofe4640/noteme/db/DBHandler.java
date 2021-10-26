@@ -58,23 +58,30 @@ public class DBHandler extends SQLiteOpenHelper {
         return saved;
     }
 
-    public void populateNoteList(ArrayList<Note> noteList) {
-        SQLiteDatabase sqldb = this.getReadableDatabase();
-        Cursor cursor = sqldb.rawQuery("SELECT * FROM " + NOTES_TABLE_NAME, null);
-        cursor.moveToFirst();
+    // Returns cursor on rows that correspond to search string
+    public Cursor searchNote(String searchable){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + NOTES_TABLE_NAME + " where title = '" + searchable +"';";
 
-        while (!cursor.isAfterLast()) {
-            Note note = new Note();
-            note.title = cursor.getString(1);
-            note.subtitle = cursor.getString(2);
-            note.body = cursor.getString(3);
-            note.noteColor = cursor.getString(4);
-
-            noteList.add(note);
-            cursor.moveToNext();
+        Cursor cursor = null;
+        if(db != null ){
+            cursor = db.rawQuery(query, null);
         }
 
-        cursor.close();
+        return cursor;
+    }
+
+    // Returns all notes in db
+    public Cursor getNotes(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + NOTES_TABLE_NAME;
+
+        Cursor cursor = null;
+        if(db != null ){
+            cursor = db.rawQuery(query, null);
+        }
+
+        return cursor;
     }
 
 }
