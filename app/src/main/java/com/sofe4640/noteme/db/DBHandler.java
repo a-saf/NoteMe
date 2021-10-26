@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import com.sofe4640.noteme.models.Note;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class DBHandler extends SQLiteOpenHelper {
@@ -47,11 +48,16 @@ public class DBHandler extends SQLiteOpenHelper {
     public boolean saveNote(String title, String subtitle, String body, String colour) {
         SQLiteDatabase sqldb = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
+        //format the date and time stamp
+        LocalDateTime dt = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDt = dt.format(formatter);
+
         cv.put(NOTES_COLUMN_TITLE, title);
         cv.put(NOTES_COLUMN_SUBTITLE, subtitle);
         cv.put(NOTES_COLUMN_BODY, body);
         cv.put(NOTES_COLUMN_COLOUR, colour);
-        cv.put(NOTES_COLUMN_DATE, LocalDateTime.now().toString());
+        cv.put(NOTES_COLUMN_DATE, formattedDt);
         long inserted = sqldb.insert(NOTES_TABLE_NAME, null, cv);
 
         boolean saved = inserted > 0 ? true : false;

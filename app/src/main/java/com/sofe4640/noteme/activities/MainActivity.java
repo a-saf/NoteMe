@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Note> noteList = new ArrayList<>();
     private DBHandler db;
-    private RVAdapter noteAdapter;
 
     private RecyclerView notesRecyclerView;
 
@@ -38,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton addNote = findViewById(R.id.new_note_btn);
         addNote.setOnClickListener(v -> {
-            // TODO Auto-generated method stub
             Intent i = new Intent(getApplicationContext(), NewNoteActivity.class);
             startActivity(i);
 
@@ -65,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayView() {
-        noteAdapter = new RVAdapter(noteList);
+        RVAdapter noteAdapter = new RVAdapter(noteList);
         notesRecyclerView.setAdapter(noteAdapter);
         notesRecyclerView.setLayoutManager(
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -94,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 note.subtitle = cursor.getString(2);
                 note.body = cursor.getString(3);
                 note.noteColor = cursor.getString(4);
+                note.date = cursor.getString(5);
 
                 noteList.add(note);
             }

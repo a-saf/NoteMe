@@ -12,11 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sofe4640.noteme.R;
 import com.sofe4640.noteme.models.Note;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NoteViewHolder>{
 
-    private ArrayList<Note> notes;
+    private final ArrayList<Note> notes;
 
     public RVAdapter(ArrayList<Note> notes) {
         this.notes = notes;
@@ -69,6 +70,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NoteViewHolder>{
             } else {
                 noteSubtitle.setText(note.getSubtitle());
             }
+
             noteDate.setText(note.getDate());
             noteColor = Integer.parseInt(note.getNoteColor());
             LinearLayout backgroundLayout = itemView.findViewById(R.id.noteLayout);
