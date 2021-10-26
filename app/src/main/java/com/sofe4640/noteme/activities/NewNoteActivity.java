@@ -14,7 +14,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sofe4640.noteme.db.DBHandler;
@@ -29,7 +28,6 @@ public class NewNoteActivity extends AppCompatActivity {
 
     private EditText noteTitle, noteSubtitle, noteBody;
     DBHandler db;
-    ConstraintLayout myLayout;
     int colorPicked;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -100,7 +98,6 @@ public class NewNoteActivity extends AppCompatActivity {
                     @Override
                     public void onChooseColor(int position, int color) {
                         colorPicked = color;
-                        //myLayout.setBackgroundColor(color);
                     }
 
                     @Override

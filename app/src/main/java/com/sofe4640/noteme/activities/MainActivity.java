@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        SearchView search = (SearchView) findViewById(R.id.search_box);
+        SearchView search = findViewById(R.id.search_box);
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void populateNoteList(String query) {
+        noteList = new ArrayList<>();
         Cursor cursor = null;
         if(query.equals("")){
             cursor = db.getNotes();
