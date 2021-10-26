@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/gray_background"
     android:backgroundTint="@color/gray_background"
-    tools:context=".NewNoteActivity">
+    tools:context=".activities.NewNoteActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
