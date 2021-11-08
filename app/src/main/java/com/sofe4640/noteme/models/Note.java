@@ -6,23 +6,16 @@ public class Note {
     public String subtitle;
     public String body;
     public String noteColor;
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     public String date;
+    public String image;
 
-    public Note(String title, String subtitle, String body, String noteColor, String date) {
+    public Note(String title, String subtitle, String body, String noteColor, String date, String image) {
         this.title = title;
         this.subtitle = subtitle;
         this.body = body;
         this.noteColor = noteColor;
         this.date = date;
+        this.image = image;
     }
 
     public Note() { }
@@ -35,7 +28,18 @@ public class Note {
                 ", body='" + body+ '\'' +
                 ", noteColor='" + noteColor + '\'' +
                 ", date='" + date + '\'' +
+                ", image='" + image + '\'' +
                 '}';
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getImage(){return image;}
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getTitle() {

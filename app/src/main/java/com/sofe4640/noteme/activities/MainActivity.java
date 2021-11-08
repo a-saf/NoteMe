@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements RVAdapter.NoteVie
                 note.body = cursor.getString(3);
                 note.noteColor = cursor.getString(4);
                 note.date = cursor.getString(5);
+                note.image = cursor.getString(6);
                 noteList.add(note);
             }
         }
@@ -105,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements RVAdapter.NoteVie
         intent.putExtra("subtitle", noteList.get(position).getSubtitle());
         intent.putExtra("body", noteList.get(position).getBody());
         intent.putExtra("color", noteList.get(position).getNoteColor());
+        intent.putExtra("image", noteList.get(position).getImage());
         startActivity(intent);
     }
 }

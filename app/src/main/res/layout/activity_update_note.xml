@@ -17,9 +17,9 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
             android:id="@+id/toolbar_update"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:background="@color/primary_rose"
             android:elevation="4dp"
@@ -90,6 +90,22 @@
         app:layout_constraintTop_toBottomOf="@+id/note_subtitle_edit"
         app:layout_constraintVertical_bias="0.36" />
 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="15dp"
+        android:adjustViewBounds="true"
+
+
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/note_subtitle_edit"
+        app:layout_constraintVertical_bias="0.668" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/edit_note_btn"
         android:layout_width="wrap_content"
@@ -106,6 +122,8 @@
         app:tint="@color/white"
         android:onClick="updateNote"
         tools:ignore="ImageContrastCheck" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

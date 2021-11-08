@@ -3,6 +3,7 @@ package com.sofe4640.noteme.activities;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -44,6 +45,7 @@ public class NewNoteActivity extends AppCompatActivity {
     DBHandler db;
     int colorPicked;
     ImageView imageNote;
+    private String selectedImagePath;
 
     private static final int REQUEST_CODE_STORAGE_PERMISSION = 1;
     private static final int REQUEST_CODE_SELECT_IMAGE = 2;
@@ -78,6 +80,8 @@ public class NewNoteActivity extends AppCompatActivity {
             }
 
         });
+
+        selectedImagePath="";
     }
 
     @Override
@@ -136,7 +140,7 @@ public class NewNoteActivity extends AppCompatActivity {
             Toast.makeText(this, "Your note needs a title!", Toast.LENGTH_SHORT).show();
         } else {
             boolean success = db.saveNote(noteTitle.getText().toString(),
-                    noteSubtitle.getText().toString(), noteBody.getText().toString(), Integer.toString(colorPicked));
+                    noteSubtitle.getText().toString(), noteBody.getText().toString(), Integer.toString(colorPicked), selectedImagePath);
             if (success) {
                 Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
                 status = true;
@@ -191,6 +195,7 @@ public class NewNoteActivity extends AppCompatActivity {
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                         imageNote.setImageBitmap(bitmap);
                         imageNote.setVisibility(View.VISIBLE);
+                        selectedImagePath = getPathFromUri(selectedImageUri);
                     } catch (FileNotFoundException e) {
                         Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -198,5 +203,20 @@ public class NewNoteActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    private String getPathFromUri(Uri contentUri){
+        String filePath;
+        Cursor cursor =getContentResolver().query(contentUri, null, null, null, null);
+        if(cursor == null){
+            filePath = contentUri.getPath();
+        }
+        else{
+            cursor.moveToFirst();
+            int index = cursor.getColumnIndex("_data");
+            filePath = cursor.getString(index);
+            cursor.close();
+        }
+        return filePath;
     }
 }
