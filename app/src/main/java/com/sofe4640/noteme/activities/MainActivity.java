@@ -19,7 +19,7 @@ import com.sofe4640.noteme.R;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RVAdapter.NoteViewHolder.OnNoteListener {
 
     private ArrayList<Note> noteList = new ArrayList<>();
     private DBHandler db;
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayView() {
-        RVAdapter noteAdapter = new RVAdapter(noteList);
+        RVAdapter noteAdapter = new RVAdapter(noteList, this);
         notesRecyclerView.setAdapter(noteAdapter);
         notesRecyclerView.setLayoutManager(
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -93,9 +93,20 @@ public class MainActivity extends AppCompatActivity {
                 note.body = cursor.getString(3);
                 note.noteColor = cursor.getString(4);
                 note.date = cursor.getString(5);
-
+                note.image = cursor.getString(6);
                 noteList.add(note);
             }
         }
+    }
+
+    @Override
+    public void onNoteClick(int position) {
+        Intent intent = new Intent(this, UpdateNoteActivity.class);
+        intent.putExtra("title", noteList.get(position).getTitle());
+        intent.putExtra("subtitle", noteList.get(position).getSubtitle());
+        intent.putExtra("body", noteList.get(position).getBody());
+        intent.putExtra("color", noteList.get(position).getNoteColor());
+        intent.putExtra("image", noteList.get(position).getImage());
+        startActivity(intent);
     }
 }

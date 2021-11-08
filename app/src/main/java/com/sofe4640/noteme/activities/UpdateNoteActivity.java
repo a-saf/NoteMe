@@ -1,6 +1,13 @@
 package com.sofe4640.noteme.activities;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -8,7 +15,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
@@ -18,19 +24,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.sofe4640.noteme.db.DBHandler;
 import com.sofe4640.noteme.R;
+import com.sofe4640.noteme.db.DBHandler;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -39,54 +38,68 @@ import java.util.Objects;
 
 import petrov.kristiyan.colorpicker.ColorPicker;
 
-public class NewNoteActivity extends AppCompatActivity {
+public class UpdateNoteActivity extends AppCompatActivity {
 
-    private EditText noteTitle, noteSubtitle, noteBody;
-    DBHandler db;
     int colorPicked;
-    ImageView imageNote;
+    String title;
+    String subtitle;
+    String body;
+    int id;
+    String imgPath;
     private String selectedImagePath;
+
+
 
     private static final int REQUEST_CODE_STORAGE_PERMISSION = 1;
     private static final int REQUEST_CODE_SELECT_IMAGE = 2;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    EditText noteTitle;
+    EditText noteSubtitle;
+    EditText noteBody;
+    ImageView myImageView;
+    DBHandler db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_note);
+        setContentView(R.layout.activity_update_note);
 
-        //Create AppBar and set Back button
-        Toolbar myToolbar = findViewById(R.id.toolbar);
+        Toolbar myToolbar = findViewById(R.id.toolbar_update);
         setSupportActionBar(myToolbar);
         ActionBar ab = getSupportActionBar();
         Objects.requireNonNull(ab).setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowTitleEnabled(false);
 
-        db  = new DBHandler(this);
+        this.noteTitle = findViewById(R.id.note_title_edit);
+        this.myImageView = (ImageView) findViewById(R.id.imageView1);
+        this.noteSubtitle = findViewById(R.id.note_subtitle_edit);
+        this.noteBody = findViewById(R.id.note_body_edit);
 
-        noteTitle = findViewById(R.id.note_title);
-        noteSubtitle = findViewById(R.id.note_subtitle);
-        noteBody = findViewById(R.id.note_body);
-        imageNote = findViewById(R.id.noteImage);
 
-        //Save button navigate back to home screen
-        FloatingActionButton saveButton = findViewById(R.id.new_note_btn);
-        saveButton.setOnClickListener(view -> {
-            boolean saved = saveNote();
-            if (saved) {
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(i);
-            }
+        db = new DBHandler(this);
 
-        });
+        Intent intent = getIntent();
+        this.colorPicked = Integer.parseInt(intent.getStringExtra("color"));
+        this.title = intent.getStringExtra("title");
+        this.subtitle = intent.getStringExtra("subtitle");
+        this.body = intent.getStringExtra("body");
+        this.imgPath =intent.getStringExtra("image");
 
-        selectedImagePath="";
+
+                this.id = db.getNoteId(title, subtitle, body);
+
+        System.out.println("Title:" +title);
+        System.out.println("subtitle" + subtitle);
+        System.out.println("body "+ body);
+        noteTitle.setText(title);
+        noteSubtitle.setText(subtitle);
+        noteBody.setText(body);
+        myImageView.setImageBitmap(BitmapFactory.decodeFile(imgPath));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu1, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -99,8 +112,28 @@ public class NewNoteActivity extends AppCompatActivity {
             case R.id.add_image:
                 imagePermissions();
                 break;
-        }
+            case R.id.delete_note:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setCancelable(true);
+                builder.setTitle("Delete Note");
+                builder.setMessage("Please confirm if you want to delete");
+                builder.setPositiveButton("Confirm",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteNote();
+                            }
+                        });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
 
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -134,20 +167,19 @@ public class NewNoteActivity extends AppCompatActivity {
     }
 
 
-    private boolean saveNote() {
+    public void updateNote(View view) {
         boolean status = false;
         if (noteTitle.getText().toString().trim().isEmpty()) {
             Toast.makeText(this, "Your note needs a title!", Toast.LENGTH_SHORT).show();
         } else {
-            boolean success = db.saveNote(noteTitle.getText().toString(),
-                    noteSubtitle.getText().toString(), noteBody.getText().toString(), Integer.toString(colorPicked), selectedImagePath);
+            boolean success = db.updateNote(Integer.toString(id), noteTitle.getText().toString(), noteSubtitle.getText().toString(), noteBody.getText().toString(), Integer.toString(colorPicked), selectedImagePath);
             if (success) {
-                Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Updated!", Toast.LENGTH_SHORT).show();
                 status = true;
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
             }
-
         }
-        return status;
     }
 
     private void imagePermissions(){
@@ -155,7 +187,7 @@ public class NewNoteActivity extends AppCompatActivity {
                 getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE
         ) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(
-                    NewNoteActivity.this,
+                    UpdateNoteActivity.this,
                     new String[] { Manifest.permission.READ_EXTERNAL_STORAGE},
                     REQUEST_CODE_STORAGE_PERMISSION
             );
@@ -193,8 +225,8 @@ public class NewNoteActivity extends AppCompatActivity {
                     try {
                         InputStream inputStream = getContentResolver().openInputStream(selectedImageUri);
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                        imageNote.setImageBitmap(bitmap);
-                        imageNote.setVisibility(View.VISIBLE);
+                        myImageView.setImageBitmap(bitmap);
+                        myImageView.setVisibility(View.VISIBLE);
                         selectedImagePath = getPathFromUri(selectedImageUri);
                     } catch (FileNotFoundException e) {
                         Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -218,5 +250,12 @@ public class NewNoteActivity extends AppCompatActivity {
             cursor.close();
         }
         return filePath;
+    }
+
+    public void deleteNote(){
+        db.deleteNote(Integer.toString(id));
+        Toast.makeText(this, "Deleted!", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

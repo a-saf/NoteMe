@@ -24,6 +24,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String NOTES_COLUMN_SUBTITLE = "subtitle";
     public static final String NOTES_COLUMN_BODY = "body";
     public static final String NOTES_COLUMN_COLOUR = "colour";
+    public static final String NOTES_COLUMN_IMG = "image";
 
     public DBHandler(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -33,7 +34,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("create table if not exists notes" +
                 "(id integer primary key autoincrement not null unique, " +
-                "title text, subtitle text, body text, colour text, date text)"
+                "title text, subtitle text, body text, colour text, date text, image text)"
         );
     }
 
@@ -45,7 +46,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
     @SuppressLint("NewApi")
-    public boolean saveNote(String title, String subtitle, String body, String colour) {
+    public boolean saveNote(String title, String subtitle, String body, String colour, String imgPath) {
         SQLiteDatabase sqldb = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         //format the date and time stamp
@@ -58,10 +59,37 @@ public class DBHandler extends SQLiteOpenHelper {
         cv.put(NOTES_COLUMN_BODY, body);
         cv.put(NOTES_COLUMN_COLOUR, colour);
         cv.put(NOTES_COLUMN_DATE, formattedDt);
+        cv.put(NOTES_COLUMN_IMG, imgPath);
         long inserted = sqldb.insert(NOTES_TABLE_NAME, null, cv);
 
         boolean saved = inserted > 0 ? true : false;
         return saved;
+    }
+
+    @SuppressLint("NewApi")
+    public boolean updateNote(String id, String title, String subtitle, String body, String colour, String imgPath){
+        SQLiteDatabase sqldb = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        LocalDateTime dt = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDt = dt.format(formatter);
+
+        cv.put(NOTES_COLUMN_TITLE, title);
+        cv.put(NOTES_COLUMN_SUBTITLE, subtitle);
+        cv.put(NOTES_COLUMN_BODY, body);
+        cv.put(NOTES_COLUMN_COLOUR, colour);
+        cv.put(NOTES_COLUMN_DATE, formattedDt);
+        cv.put(NOTES_COLUMN_IMG, imgPath);
+
+        long result = sqldb.update(NOTES_TABLE_NAME, cv,"id=?", new String[]{id});
+
+        boolean saved = result > 0 ? true : false;
+        return saved;
+    }
+
+    public void deleteNote(String id){
+        SQLiteDatabase sqldb = this.getWritableDatabase();
+        long result = sqldb.delete(NOTES_TABLE_NAME, "id=?", new String[]{id});
     }
 
     // Returns cursor on rows that correspond to search string
@@ -88,6 +116,17 @@ public class DBHandler extends SQLiteOpenHelper {
         }
 
         return cursor;
+    }
+
+    public int getNoteId(String title, String subtitle, String body){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT ROWID, * FROM " + NOTES_TABLE_NAME + " WHERE title = '" + title + "' AND subtitle = '" + subtitle + "' AND body = '" + body +"';";
+        Cursor res = db.rawQuery(query, null);
+        int id=-1;
+        if(res!=null&&res.moveToFirst()) {
+            id = res.getInt(res.getColumnIndex("id"));
+        }
+        return id;
     }
 
 }
