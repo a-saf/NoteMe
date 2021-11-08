@@ -11,4 +11,9 @@
         android:title=""
         android:icon="@drawable/ic_baseline_color_lens_24"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/delete_note"
+        android:title=""
+        android:icon="@drawable/ic_baseline_delete_24"
+        app:showAsAction="always" />
 </menu>

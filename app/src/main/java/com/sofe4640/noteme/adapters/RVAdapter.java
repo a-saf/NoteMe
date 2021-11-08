@@ -18,9 +18,11 @@ import java.util.ArrayList;
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NoteViewHolder>{
 
     private final ArrayList<Note> notes;
+    private NoteViewHolder.OnNoteListener mOnNoteListener;
 
-    public RVAdapter(ArrayList<Note> notes) {
+    public RVAdapter(ArrayList<Note> notes, NoteViewHolder.OnNoteListener onNoteListener) {
         this.notes = notes;
+        this.mOnNoteListener = onNoteListener;
     }
 
     @NonNull
@@ -31,7 +33,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NoteViewHolder>{
                         R.layout.activity_rv_list_item,
                         parent,
                         false
-                )
+                ), mOnNoteListener
         );
     }
 
@@ -51,16 +53,19 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NoteViewHolder>{
        return position;
     }
 
-    static class NoteViewHolder extends RecyclerView.ViewHolder {
+    public static class NoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView noteTitle, noteSubtitle, noteDate;
         int noteColor;
+        OnNoteListener onNoteListener;
 
-        NoteViewHolder(@NonNull View itemView) {
+        NoteViewHolder(@NonNull View itemView, OnNoteListener onNoteListener) {
             super(itemView);
             noteTitle = itemView.findViewById(R.id.noteTitle);
             noteSubtitle = itemView.findViewById(R.id.noteSubtitle);
             noteDate = itemView.findViewById(R.id.noteDate);
+            this.onNoteListener = onNoteListener;
+            itemView.setOnClickListener(this);
         }
 
         void setNote(Note note) {
@@ -75,6 +80,15 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.NoteViewHolder>{
             noteColor = Integer.parseInt(note.getNoteColor());
             LinearLayout backgroundLayout = itemView.findViewById(R.id.noteLayout);
             backgroundLayout.setBackgroundColor(noteColor);
+        }
+
+        @Override
+        public void onClick(View view) {
+            onNoteListener.onNoteClick(getAdapterPosition());
+        }
+
+        public interface OnNoteListener{
+            void onNoteClick(int position);
         }
     }
 

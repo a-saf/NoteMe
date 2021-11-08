@@ -64,6 +64,31 @@ public class DBHandler extends SQLiteOpenHelper {
         return saved;
     }
 
+    @SuppressLint("NewApi")
+    public boolean updateNote(String id, String title, String subtitle, String body, String colour){
+        SQLiteDatabase sqldb = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        LocalDateTime dt = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDt = dt.format(formatter);
+
+        cv.put(NOTES_COLUMN_TITLE, title);
+        cv.put(NOTES_COLUMN_SUBTITLE, subtitle);
+        cv.put(NOTES_COLUMN_BODY, body);
+        cv.put(NOTES_COLUMN_COLOUR, colour);
+        cv.put(NOTES_COLUMN_DATE, formattedDt);
+
+        long result = sqldb.update(NOTES_TABLE_NAME, cv,"id=?", new String[]{id});
+
+        boolean saved = result > 0 ? true : false;
+        return saved;
+    }
+
+    public void deleteNote(String id){
+        SQLiteDatabase sqldb = this.getWritableDatabase();
+        long result = sqldb.delete(NOTES_TABLE_NAME, "id=?", new String[]{id});
+    }
+
     // Returns cursor on rows that correspond to search string
     public Cursor searchNote(String searchable){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -88,6 +113,17 @@ public class DBHandler extends SQLiteOpenHelper {
         }
 
         return cursor;
+    }
+
+    public int getNoteId(String title, String subtitle, String body){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT ROWID, * FROM " + NOTES_TABLE_NAME + " WHERE title = '" + title + "' AND subtitle = '" + subtitle + "' AND body = '" + body +"';";
+        Cursor res = db.rawQuery(query, null);
+        int id=-1;
+        if(res!=null&&res.moveToFirst()) {
+            id = res.getInt(res.getColumnIndex("id"));
+        }
+        return id;
     }
 
 }

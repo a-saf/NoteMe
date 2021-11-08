@@ -8,4 +8,6 @@
     <string name="add_new_note">Add new note</string>
     <string name="new_note">New Note</string>
     <string name="saved">Saved</string>
+    <string name="edit_note_title">Edit Note</string>
+    <string name="update_note_fab">Update Note</string>
 </resources>
