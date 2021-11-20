@@ -10,4 +10,5 @@
     <string name="saved">Saved</string>
     <string name="edit_note_title">Edit Note</string>
     <string name="update_note_fab">Update Note</string>
+    <string name="export_to_json">Export to JSON</string>
 </resources>
