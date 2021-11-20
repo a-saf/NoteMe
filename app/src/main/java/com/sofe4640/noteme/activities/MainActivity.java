@@ -5,7 +5,11 @@ import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.view.View;
 import android.widget.SearchView;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -16,6 +20,13 @@ import com.sofe4640.noteme.db.DBHandler;
 import com.sofe4640.noteme.models.Note;
 import com.sofe4640.noteme.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -108,5 +119,58 @@ public class MainActivity extends AppCompatActivity implements RVAdapter.NoteVie
         intent.putExtra("color", noteList.get(position).getNoteColor());
         intent.putExtra("image", noteList.get(position).getImage());
         startActivity(intent);
+    }
+
+    public void exportToJson(View view) throws JSONException {
+        FileWriter file = null;
+
+
+        JSONObject jResult = new JSONObject();
+        JSONArray jArray = new JSONArray();
+
+        for (int i = 0; i < noteList.size(); i++) {
+            //System.out.println(noteList.get(i).getTitle());
+            JSONObject jGroup = new JSONObject();
+
+            jGroup.put("title", noteList.get(i).getTitle());
+            jGroup.put("subtitle", noteList.get(i).getSubtitle());
+            jGroup.put("body", noteList.get(i).getBody());
+            jGroup.put("color", noteList.get(i).getNoteColor());
+            jGroup.put("image", noteList.get(i).getImage());
+
+
+            jArray.put(jGroup);
+
+        }
+
+        jResult.put("notes", jArray);
+
+        try {
+
+
+            // Constructs a FileWriter given a file name, using the platform's default charset
+            file = new FileWriter("/storage/emulated/0/Download/NoteMe_Export.json");
+            file.write(jResult.toString(1));
+
+            Toast toast = Toast.makeText(getApplicationContext(), "Exported Sucessfully", Toast.LENGTH_SHORT);
+            toast.show();
+
+
+        } catch (IOException e) {
+            Toast.makeText(getApplicationContext(), "Export Failed", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+
+        } finally {
+
+            try {
+                file.flush();
+                file.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+
     }
 }

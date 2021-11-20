@@ -62,7 +62,7 @@ public class DBHandler extends SQLiteOpenHelper {
         cv.put(NOTES_COLUMN_IMG, imgPath);
         long inserted = sqldb.insert(NOTES_TABLE_NAME, null, cv);
 
-        boolean saved = inserted > 0 ? true : false;
+        boolean saved = inserted > 0;
         return saved;
     }
 
