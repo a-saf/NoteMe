@@ -105,13 +105,14 @@ public class UpdateNoteActivity extends AppCompatActivity {
         noteSubtitle.setText(subtitle);
         noteBody.setText(body);
         myImageView.setImageBitmap(BitmapFactory.decodeFile(imgPath));
+        myImageView.setVisibility(View.VISIBLE);
     }
 
     public void addImage(){
 
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
             photoFile = null;
             try {
@@ -131,8 +132,7 @@ public class UpdateNoteActivity extends AppCompatActivity {
 
                 startActivityForResult(takePictureIntent, CAMERA_REQUEST);
             }
-        }
-
+//        }
     }
 
     @Override
@@ -174,8 +174,33 @@ public class UpdateNoteActivity extends AppCompatActivity {
             case R.id.open_camera:
                 addImage();
                 break;
+            case R.id.open_drawing:
+                addDrawing();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void addDrawing(){
+        title = noteTitle.getText().toString();
+        subtitle = noteSubtitle.getText().toString();
+        body = noteBody.getText().toString();
+
+        Intent intent = new Intent(this, DrawingActivity.class);
+        intent.putExtra("id", 2);
+        if(title != null){
+            intent.putExtra("title", title);
+        }
+        if(subtitle != null){
+            intent.putExtra("subtitle", subtitle);
+        }
+        if(body != null){
+            intent.putExtra("body", body);
+        }
+        if(imgPath != null){
+            intent.putExtra("imgPath", imgPath);
+        }
+        startActivity(intent);
     }
 
     public void openColorPicker(){
@@ -306,10 +331,6 @@ public class UpdateNoteActivity extends AppCompatActivity {
 
             selectedImagePath = getPathFromUri(Uri.fromFile(photoFile));
             System.out.println(selectedImagePath);
-//            Bitmap photo = (Bitmap) data.getExtras().get("data");
-//            imageNote.setImageBitmap(photo);
-
-
         }
     }
 

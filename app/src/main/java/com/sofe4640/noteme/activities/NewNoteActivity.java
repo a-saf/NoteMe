@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -59,6 +60,8 @@ public class NewNoteActivity extends AppCompatActivity {
     String currentPhotoPath;
     File photoFile;
 
+    String title, subtitle, body;
+
     private static final int REQUEST_CODE_STORAGE_PERMISSION = 1;
     private static final int REQUEST_CODE_SELECT_IMAGE = 2;
     private static final int CAMERA_REQUEST = 1888;
@@ -95,6 +98,28 @@ public class NewNoteActivity extends AppCompatActivity {
         });
 
         selectedImagePath="";
+
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras != null){
+            if (extras.containsKey("image")){
+                selectedImagePath = extras.getString("image");
+                imageNote.setImageBitmap(BitmapFactory.decodeFile(selectedImagePath));
+                imageNote.setVisibility(View.VISIBLE);
+            }
+            if (extras.containsKey("title")){
+                title = extras.getString("title");
+                noteTitle.setText(title);
+            }
+            if (extras.containsKey("subtitle")){
+                subtitle = extras.getString("subtitle");
+                noteSubtitle.setText(subtitle);
+            }
+            if (extras.containsKey("body")){
+                body = extras.getString("body");
+                noteBody.setText(body);
+            }
+        }
     }
 
     @Override
@@ -115,22 +140,43 @@ public class NewNoteActivity extends AppCompatActivity {
             case R.id.open_camera:
                 addImage();
                 break;
+            case R.id.open_drawing:
+                addDrawing();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void addImage(){
+    public void addDrawing(){
+        title = noteTitle.getText().toString();
+        subtitle = noteSubtitle.getText().toString();
+        body = noteBody.getText().toString();
 
+        Intent intent = new Intent(this, DrawingActivity.class);
+        intent.putExtra("id", 1);
+        if(title != null){
+            intent.putExtra("title", title);
+        }
+        if(subtitle != null){
+            intent.putExtra("subtitle", subtitle);
+        }
+        if(body != null){
+            intent.putExtra("body", body);
+        }
+        startActivity(intent);
+    }
+
+    public void addImage(){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
             photoFile = null;
             try {
                 photoFile = createImageFile();
             } catch (IOException ex) {
-                System.out.println("erorr when creating file");
+                System.out.println("error when creating file");
                 // Error occurred while creating the File
 
             }
@@ -144,7 +190,7 @@ public class NewNoteActivity extends AppCompatActivity {
 
                 startActivityForResult(takePictureIntent, CAMERA_REQUEST);
             }
-        }
+//        }
 
     }
 
@@ -226,6 +272,15 @@ public class NewNoteActivity extends AppCompatActivity {
             else {
                 Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
             }
+
+        }
+        System.out.println("Request code" + requestCode);
+        if (requestCode == CAMERA_REQUEST) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -249,7 +304,7 @@ public class NewNoteActivity extends AppCompatActivity {
                 }
             }
         }
-        System.out.println(requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK);
+        System.out.println(requestCode == CAMERA_REQUEST && resultCode == RESULT_OK);
 
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK)
         {
@@ -264,11 +319,6 @@ public class NewNoteActivity extends AppCompatActivity {
             imageNote.setVisibility(View.VISIBLE);
 
             selectedImagePath = getPathFromUri(Uri.fromFile(photoFile));
-            System.out.println(selectedImagePath);
-//            Bitmap photo = (Bitmap) data.getExtras().get("data");
-//            imageNote.setImageBitmap(photo);
-
-
         }
     }
 
